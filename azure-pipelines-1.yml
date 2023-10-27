@@ -1,0 +1,28 @@
+trigger:
+- main
+
+pool: 
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- script: |
+    echo "Running tests..."
+    npm run test
+
+  displayName: 'Tests'
+
+- task: PublishTestResults@2
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**/*.js'
+    targetFolder: '$(build.artifactStagingDirectory)'
+
+- task: PublishBuildArtifacts@1
+
+- task: DownloadBuildArtifacts@0
+
+- script: |
+    echo "Deploying..."
+    # deploy commands
